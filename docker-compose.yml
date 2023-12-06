@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  elasticsearch:
+    image: elasticsearch:8.11.1
+    container_name: elasticsearch
+    networks:
+      - elastic-network
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      discovery.type: "single-node"
+      ELASTIC_PASSWORD: "ELASTIC_PASSWORD"
+
+networks:
+  elastic-network:
+    driver: bridge

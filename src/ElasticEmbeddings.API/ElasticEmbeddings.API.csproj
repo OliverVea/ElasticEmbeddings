@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <InvariantGlobalization>true</InvariantGlobalization>
+        <UserSecretsId>2f7b79f2-a9ad-4156-ba80-a48ab66df80e</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ElasticEmbeddings.Embedding\ElasticEmbeddings.Embedding.csproj" />
+      <ProjectReference Include="..\ElasticEmbeddings.Persistence\ElasticEmbeddings.Persistence.csproj" />
+      <ProjectReference Include="..\ElasticEmbeddings.Core\ElasticEmbeddings.Core.csproj" />
+      <ProjectReference Include="..\ElasticEmbeddings.Search\ElasticEmbeddings.Search.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="Data\sqlite.db">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+</Project>
