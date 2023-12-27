@@ -19,3 +19,7 @@ Then, run the application with:
 ```bash
 docker-compose up -d
 ```
+
+### Demo
+
+An IPython notebook is provided to demonstrate the usage of the API. It can be found in [`demo.ipynb`](demo.ipynb).
