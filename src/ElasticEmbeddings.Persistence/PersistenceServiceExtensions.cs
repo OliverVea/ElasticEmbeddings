@@ -1,5 +1,6 @@
-﻿using ElasticEmbeddings.Interfaces.Stores;
-using ElasticEmbeddings.Persistence.Stores;
+﻿using ElasticEmbeddings.Interfaces.Repositories;
+using ElasticEmbeddings.Persistence.Repositories;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,20 +9,25 @@ namespace ElasticEmbeddings.Persistence;
 
 public static class PersistenceServiceExtensions
 {
-    public static void AddPersistence(this IServiceCollection services, string connectionString)
+    public static void AddPersistence(this IServiceCollection services, SqliteConnection sqliteConnection)
     {
-        AddDbContext(services, connectionString);
-
-        services.AddScoped<IDocumentStore, DocumentStore>();
-        services.AddScoped<IDocumentEmbeddingStore, DocumentEmbeddingStore>();
-        services.AddScoped<IDocumentStateStore, DocumentStateStore>();
+        AddSqliteDbContext(services, sqliteConnection);
+    
+        services.AddRepositories();
     }
 
-    private static void AddDbContext(IServiceCollection services, string connectionString)
+    private static void AddRepositories(this IServiceCollection services)
+    {
+        services.AddScoped<IDocumentRepository, DocumentRepository>();
+        services.AddScoped<IDocumentEmbeddingRepository, DocumentEmbeddingRepository>();
+        services.AddScoped<IDocumentStateRepository, DocumentStateRepository>();
+    }
+
+    private static void AddSqliteDbContext(IServiceCollection services, SqliteConnection sqliteConnection)
     {
         services.AddDbContext<ElasticEmbeddingsContext>(options =>
         {
-            options.UseSqlite(connectionString);
+            options.UseSqlite(sqliteConnection);
             
             options.ConfigureWarnings(w =>
             {
@@ -34,5 +40,13 @@ public static class PersistenceServiceExtensions
         });
 
         services.AddScoped<IElasticEmbeddingsContext>(provider => provider.GetRequiredService<ElasticEmbeddingsContext>());
+    }
+    
+    public static async Task EnsureCreatedAsync(this IServiceProvider serviceProvider, SqliteConnection sqliteConnection)
+    {
+        await sqliteConnection.OpenAsync();
+        
+        var dbContext = serviceProvider.GetRequiredService<ElasticEmbeddingsContext>();
+        await dbContext.Database.EnsureCreatedAsync();
     }
 }

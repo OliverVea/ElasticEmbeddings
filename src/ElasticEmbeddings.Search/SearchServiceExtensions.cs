@@ -1,9 +1,7 @@
 ﻿using Elastic.Clients.Elasticsearch;
 using Elastic.Transport;
-using ElasticEmbeddings.Interfaces.Providers;
-using ElasticEmbeddings.Search.Application;
-using ElasticEmbeddings.Search.Interfaces;
-using ElasticEmbeddings.Search.Jobs;
+using ElasticEmbeddings.Interfaces.Repositories;
+using ElasticEmbeddings.Search.Domain;
 using ElasticEmbeddings.Search.Models;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,14 +13,14 @@ public static class SearchServiceExtensions
     {
         AddElasticsearch(services, configuration);
         
-        services.AddScoped<IEmbeddingSearchProvider, EmbeddingSearchProvider>();
+        services.AddScoped<IEmbeddingSearchRepository, EmbeddingSearchRepository>();
         services.AddScoped<IDocumentIndexingService, DocumentIndexingService>();
-        services.AddScoped<IMappingDescriptorService<Document>, DocumentMappingDescriptorService>();
+        services.AddScoped<IDocumentMappingDescriptorService, DocumentMappingDescriptorService>();
         
         services.AddSingleton<IDocumentMapper, DocumentMapper>();
-        services.AddSingleton<IElasticIndexState, ElasticIndexState>();
+        services.AddSingleton<IDocumentIndexingQueue, DocumentIndexingQueue>();
         
-        services.AddHostedService<ElasticIndexingJob>();
+        services.AddHostedService<DocumentIndexingJob>();
     }
 
     private static void AddElasticsearch(IServiceCollection services, ElasticsearchConfiguration configuration)

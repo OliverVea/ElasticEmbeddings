@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="sqlite" uuid="ca6125a1-2f7d-404d-a202-9d3d94d68353">
+    <data-source source="LOCAL" name="sqlite [2]" uuid="e844cf7c-ee53-4bd8-b7c3-0a55c43ec16f">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\projects\ElasticEmbeddings\ElasticEmbeddings.API\Data\sqlite.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\projects\ElasticEmbeddings\src\ElasticEmbeddings.API\Data\sqlite.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
       <libraries>
         <library>

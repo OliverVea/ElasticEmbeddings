@@ -1,4 +1,4 @@
-﻿using ElasticEmbeddings.Application;
+﻿using ElasticEmbeddings.Domain;
 using ElasticEmbeddings.Interfaces;
 using ElasticEmbeddings.Jobs;
 using ElasticEmbeddings.Models;

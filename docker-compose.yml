@@ -13,6 +13,17 @@ services:
       discovery.type: "single-node"
       ELASTIC_PASSWORD: "ELASTIC_PASSWORD"
 
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: mssql
+    networks:
+      - elastic-network
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "SA_PASSWORD"
+      ACCEPT_EULA: "Y"
+
 networks:
   elastic-network:
     driver: bridge

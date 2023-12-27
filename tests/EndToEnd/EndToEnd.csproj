@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoFixture" Version="5.0.0-preview0006" />
+      <PackageReference Include="AutoFixture.AutoMoq" Version="5.0.0-preview0006" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+      <PackageReference Include="NUnit" Version="4.0.1" />
+      <PackageReference Include="Testcontainers" Version="3.6.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\ElasticEmbeddings.Core\ElasticEmbeddings.Core.csproj" />
+      <ProjectReference Include="..\..\src\ElasticEmbeddings.Embedding\ElasticEmbeddings.Embedding.csproj" />
+      <ProjectReference Include="..\..\src\ElasticEmbeddings.Persistence\ElasticEmbeddings.Persistence.csproj" />
+      <ProjectReference Include="..\..\src\ElasticEmbeddings.Search\ElasticEmbeddings.Search.csproj" />
+    </ItemGroup>
+
+</Project>

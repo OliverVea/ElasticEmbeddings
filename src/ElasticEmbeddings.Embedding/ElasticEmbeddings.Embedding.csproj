@@ -14,4 +14,19 @@
       <PackageReference Include="Azure.AI.OpenAI" Version="1.0.0-beta.9" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Update="TextFormatters\YamlFormatter.cs">
+        <AutoGen>True</AutoGen>
+        <DesignTime>True</DesignTime>
+        <DependentUpon>YamlFormatter.tt</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="TextFormatters\YamlFormatter.tt">
+        <Generator>TextTemplatingFilePreprocessor</Generator>
+        <LastGenOutput>YamlFormatter.cs</LastGenOutput>
+      </None>
+    </ItemGroup>
+
 </Project>

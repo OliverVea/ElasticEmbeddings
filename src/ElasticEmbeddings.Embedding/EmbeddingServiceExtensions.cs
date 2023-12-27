@@ -1,7 +1,7 @@
 ﻿using Azure;
 using Azure.AI.OpenAI;
 using ElasticEmbeddings.Interfaces;
-using ElasticEmbeddings.Interfaces.Providers;
+using ElasticEmbeddings.Interfaces.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ElasticEmbeddings.Embedding;
@@ -12,7 +12,7 @@ public static class EmbeddingServiceExtensions
     {
         AddOpenAi(services, configuration);
         
-        services.AddSingleton<ITextEmbeddingProvider, TextEmbeddingProvider>();
+        services.AddSingleton<ITextEmbeddingRepository, TextEmbeddingRepository>();
     }
 
     private static void AddOpenAi(IServiceCollection services, OpenAIConfiguration configuration)

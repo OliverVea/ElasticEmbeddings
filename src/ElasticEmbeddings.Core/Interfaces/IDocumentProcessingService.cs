@@ -1,6 +1,6 @@
 ﻿namespace ElasticEmbeddings.Interfaces;
 
-internal interface IDocumentProcessingService
+public interface IDocumentProcessingService
 {
     Task ProcessDocumentBatchAsync(CancellationToken cancellationToken);
 }

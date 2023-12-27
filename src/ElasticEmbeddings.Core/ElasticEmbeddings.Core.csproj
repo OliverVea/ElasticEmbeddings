@@ -13,4 +13,17 @@
       <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Domain\DocumentTextFormatters\YamlFormatter.tt">
+        <Generator>TextTemplatingFilePreprocessor</Generator>
+        <LastGenOutput>YamlFormatter.cs</LastGenOutput>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Domain\DocumentTextFormatters\YamlFormatter.cs">
+        <DependentUpon>YamlFormatter.tt</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
 </Project>

@@ -1,8 +1,6 @@
-﻿using ElasticEmbeddings.Models;
-
-namespace ElasticEmbeddings.Interfaces;
+﻿namespace ElasticEmbeddings.Interfaces;
 
 public interface IQueryEmbeddingGeneratorService
 {
-    Task<Embedding> GetEmbeddingAsync(string query);
+    Task<Models.Embedding> GetEmbeddingAsync(string query);
 }

@@ -3,6 +3,7 @@ using ElasticEmbeddings.Embedding;
 using ElasticEmbeddings.Persistence;
 using ElasticEmbeddings.Search;
 using ElasticEmbeddings.Search.Models;
+using Microsoft.Data.Sqlite;
 
 namespace ElasticEmbeddings.API;
 
@@ -14,6 +15,7 @@ public static class ServiceExtensions
         services.AddSwaggerGen();
         
         var sqliteConnectionString = configuration.GetConnectionString("Sqlite");
+        var sqliteConnection = new SqliteConnection(sqliteConnectionString);
         if (sqliteConnectionString is null) throw new InvalidOperationException("Sqlite connection string is not configured");
         
         var openAiConfiguration = configuration.GetSection("OpenAI").Get<OpenAIConfiguration>();
@@ -23,7 +25,7 @@ public static class ServiceExtensions
         if (elasticConfiguration is null) throw new InvalidOperationException("Elasticsearch configuration is not configured");
         
         services.AddCore();
-        services.AddPersistence(sqliteConnectionString);
+        services.AddPersistence(sqliteConnection);
         services.AddSearch(elasticConfiguration);
         services.AddEmbedding(openAiConfiguration);
 
