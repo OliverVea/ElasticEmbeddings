@@ -25,6 +25,8 @@ public static class PersistenceServiceExtensions
 
     private static void AddSqliteDbContext(IServiceCollection services, SqliteConnection sqliteConnection)
     {
+        services.AddSingleton(sqliteConnection);
+        
         services.AddDbContext<ElasticEmbeddingsContext>(options =>
         {
             options.UseSqlite(sqliteConnection);
@@ -42,12 +44,20 @@ public static class PersistenceServiceExtensions
         services.AddScoped<IElasticEmbeddingsContext>(provider => provider.GetRequiredService<ElasticEmbeddingsContext>());
     }
     
-    public static async Task EnsureCreatedAsync(this IServiceProvider serviceProvider, SqliteConnection sqliteConnection)
+    public static async Task EnsureCreatedAsync(this IServiceProvider serviceProvider)
     {
+        var sqliteConnection = serviceProvider.GetRequiredService<SqliteConnection>();
         await sqliteConnection.OpenAsync();
         
         var dbContext = serviceProvider.GetRequiredService<ElasticEmbeddingsContext>();
-        
         await dbContext.Database.EnsureCreatedAsync();
+    }
+    
+    public static async Task MigrateAsync(this IServiceProvider serviceProvider)
+    {
+        await using var scope = serviceProvider.CreateAsyncScope();
+        
+        await using var dbContext = scope.ServiceProvider.GetRequiredService<ElasticEmbeddingsContext>();
+        await dbContext.Database.MigrateAsync();
     }
 }

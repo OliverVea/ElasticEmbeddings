@@ -34,7 +34,7 @@ services:
         ]
       interval: 2s
       timeout: 10s
-      retries: 100
+      retries: 30
 
 networks:
   elastic-embeddings-network:

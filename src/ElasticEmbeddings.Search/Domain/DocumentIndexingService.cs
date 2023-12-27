@@ -56,7 +56,8 @@ public class DocumentIndexingService(
             .Index(Constants.IndexName)
             .IndexMany(documentBatch, (bulkDescriptor, document) => bulkDescriptor
                 .Index(Constants.IndexName)
-                .Id(document.DocumentId)), cancellationToken);
+                .Id(document.DocumentId))
+            .Refresh(Refresh.True), cancellationToken);
 
         if (!bulkResponse.IsValidResponse) throw new Exception(bulkResponse.DebugInformation);
     }

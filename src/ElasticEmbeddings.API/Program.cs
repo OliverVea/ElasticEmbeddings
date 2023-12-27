@@ -1,5 +1,6 @@
 using ElasticEmbeddings.API;
 using ElasticEmbeddings.API.Endpoints;
+using ElasticEmbeddings.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,5 +15,7 @@ app.UseHttpsRedirection();
 
 app.AddDocumentEndpoints();
 app.AddSearchEndpoints();
+
+await app.Services.MigrateAsync();
 
 app.Run();

@@ -19,9 +19,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution", "solution", "{08
 		README.md = README.md
 		.dockerignore = .dockerignore
 		Dockerfile = Dockerfile
-		README.Docker.md = README.Docker.md
 		.env = .env
 		.gitignore = .gitignore
+		.env.template = .env.template
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{666A24E5-78DF-42B9-9D83-48E382DE7BA7}"

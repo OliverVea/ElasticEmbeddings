@@ -6,21 +6,27 @@ using ElasticEmbeddings.Search.Models;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using NUnit.Framework.Internal;
 
 namespace EndToEnd;
 
 public abstract class BaseTest
 {
-    protected readonly DockerTestContainer DockerTestContainer = new();
     protected readonly DataBuilder DataBuilder = new();
-    protected IServiceProvider Services { get; private set; } = null!;
+    
+    private IServiceProvider _services = null!;
+    private readonly ElasticSearchTestContainer _elasticSearchTestContainer = new();
 
     [OneTimeSetUp]
     public async Task CreateServiceProvider()
     {
-        await DockerTestContainer.StartAsync();
+        await _elasticSearchTestContainer.StartAsync();
         
         var services = new ServiceCollection();
+        
+        var logger = new Logger("console", InternalTraceLevel.Debug, TestContext.Out);
+        
+        services.AddSingleton<ILogger>(logger);
         
         services.AddCore();
 
@@ -38,30 +44,29 @@ public abstract class BaseTest
         var sqliteConnection = new SqliteConnection("DataSource=Search;Filename=:memory:");
         services.AddPersistence(sqliteConnection);
 
-
-        var elasticPort = DockerTestContainer.GetMappedPort();
+        var elasticPort = _elasticSearchTestContainer.GetMappedPort();
         services.AddSearch(new ElasticsearchConfiguration
         {
-            Endpoint = $"http://localhost:{elasticPort}",
+            Endpoint = $"https://localhost:{elasticPort}",
             Username = "elastic",
             Password = "ELASTIC_PASSWORD"
         });
 
         services.AddLogging();
 
-        Services = services.BuildServiceProvider();
+        _services = services.BuildServiceProvider();
 
-        await Services.EnsureCreatedAsync(sqliteConnection);
+        await _services.EnsureCreatedAsync();
     }
     
     [OneTimeTearDown]
     public async Task RemoveTestContainers()
     {
-        await DockerTestContainer.StopAsync();
+        await _elasticSearchTestContainer.StopAsync();
     }
     
     protected T GetService<T>() where T : notnull
     {
-        return Services.GetRequiredService<T>();
+        return _services.GetRequiredService<T>();
     }
 }
