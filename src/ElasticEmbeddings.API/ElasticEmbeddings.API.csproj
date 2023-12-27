@@ -21,10 +21,4 @@
       <ProjectReference Include="..\ElasticEmbeddings.Search\ElasticEmbeddings.Search.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <None Update="Data\sqlite.db">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
 </Project>

@@ -15,4 +15,9 @@ public class DocumentIndexingService(IEmbeddingSearchRepository embeddingSearchR
 
         await documentStateService.SetDocumentStatesAsync(documentIdsWithEmbeddings, DocumentState.Indexed, cancellationToken);
     }
+
+    public Task<long?> GetIndexedDocumentCount()
+    {
+        return embeddingSearchRepository.CountAsync();
+    }
 }

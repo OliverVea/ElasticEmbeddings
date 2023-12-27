@@ -47,6 +47,7 @@ public static class PersistenceServiceExtensions
         await sqliteConnection.OpenAsync();
         
         var dbContext = serviceProvider.GetRequiredService<ElasticEmbeddingsContext>();
+        
         await dbContext.Database.EnsureCreatedAsync();
     }
 }

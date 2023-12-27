@@ -18,6 +18,7 @@ public static class CoreServiceExtensions
         services.AddScoped<IDocumentService, DocumentService>();
         services.AddScoped<IDocumentStateService, DocumentStateService>();
         services.AddScoped<IQueryEmbeddingGeneratorService, QueryEmbeddingGeneratorService>();
+        services.AddScoped<IDocumentTextFormattingService, DocumentTextFormattingService>();
 
         services.AddHostedService<DocumentProcessingJob>();
     }

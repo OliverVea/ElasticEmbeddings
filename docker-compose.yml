@@ -1,29 +1,41 @@
 version: '3'
 
 services:
+  elastic-embeddings:
+    build: .
+    networks:
+      - elastic-embeddings-network
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./src/ElasticEmbeddings.API/Data:/app/Data
+    env_file:
+      - .env
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+        
   elasticsearch:
     image: elasticsearch:8.11.1
     container_name: elasticsearch
     networks:
-      - elastic-network
+      - elastic-embeddings-network
     ports:
       - "9200:9200"
       - "9300:9300"
     environment:
       discovery.type: "single-node"
       ELASTIC_PASSWORD: "ELASTIC_PASSWORD"
-
-  mssql:
-    image: mcr.microsoft.com/mssql/server:2019-latest
-    container_name: mssql
-    networks:
-      - elastic-network
-    ports:
-      - "1433:1433"
-    environment:
-      SA_PASSWORD: "SA_PASSWORD"
-      ACCEPT_EULA: "Y"
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s --user elastic:ELASTIC_PASSWORD --insecure -XGET https://localhost:9200/_cluster/health?pretty | grep status | grep -q '\\(green\\|yellow\\)'"
+        ]
+      interval: 2s
+      timeout: 10s
+      retries: 100
 
 networks:
-  elastic-network:
+  elastic-embeddings-network:
     driver: bridge

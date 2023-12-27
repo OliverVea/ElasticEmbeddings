@@ -22,8 +22,6 @@ public class EmbeddingSearchRepository(
     public async Task<IEnumerable<DocumentResult>> SearchAsync(ElasticEmbeddings.Models.Embedding embedding)
     {
         var queryVector = embedding.Embeddings.ToArray();
-
-        var c = client;
         
         var result = await client.SearchAsync<Document>(r => r
                 .Index(Constants.IndexName)
@@ -38,5 +36,16 @@ public class EmbeddingSearchRepository(
         if (!result.IsValidResponse) throw new Exception(result.DebugInformation);
 
         return documentMapper.Map(result.Hits);
+    }
+
+    public async Task<long?> CountAsync()
+    {
+        var indexName = Indices.Index(Constants.IndexName);
+        
+        var result = await client.CountAsync<Document>(x => x.Indices(indexName));
+
+        if (!result.IsValidResponse) return null;
+
+        return result.Count;
     }
 }
