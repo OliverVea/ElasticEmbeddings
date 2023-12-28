@@ -12,13 +12,13 @@ For the sake of convenience, a [`docker-compose.yml`](docker-compose.yml) file i
 
 ### Running the application
 
-To configure the dependencies, copy the [`.env.template`](.env.template) file to `.env` and fill in the values.
-
-Then, run the application with:
-
-```bash
-docker-compose up -d
-```
+1. Ensure that you have a valid Azure OpenAI API key.
+1. Copy the [`.env.template`](.env.template) file to `.env` and fill in the values.
+2. Run the application with:
+    ```bash
+    docker-compose up -d
+    ```
+3. The API is now available at [`http://localhost:8080/swagger/index.html`](http://localhost:8080/swagger/index.html).
 
 ### Demo
 
